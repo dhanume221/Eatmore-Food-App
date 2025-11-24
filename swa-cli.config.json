@@ -1,0 +1,15 @@
+{
+  "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
+  "configurations": {
+    "tomato-full-stack-food-delivery-website-using-mern": {
+      "appLocation": "admin",
+      "outputLocation": "dist",
+      "dataApiLocation": "swa-db-connections",
+      "appBuildCommand": "npm run build",
+      "run": "npm run dev",
+      "appDevserverUrl": "http://localhost:5174",
+      "appName": "tomato-full-stack-food-delivery-website-using-mern",
+      "resourceGroup": "tomato-full-stack-food-delivery-website-using-mern-rg"
+    }
+  }
+}

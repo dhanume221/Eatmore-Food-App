@@ -1,0 +1,113 @@
+.delivery-login {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.delivery-login-container {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+}
+
+.delivery-login-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.delivery-login-title h2 {
+    color: #333;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.delivery-login-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.delivery-login-inputs input,
+.delivery-login-inputs select {
+    padding: 15px 20px;
+    border: 2px solid #e1e5e9;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.delivery-login-inputs input:focus,
+.delivery-login-inputs select:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.delivery-login-container button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.delivery-login-container button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.delivery-login-condition {
+    text-align: center;
+    margin-top: 25px;
+    color: #666;
+    font-size: 14px;
+}
+
+.delivery-login-condition span {
+    color: #667eea;
+    cursor: pointer;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.delivery-login-condition span:hover {
+    color: #764ba2;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .delivery-login-container {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+
+    .delivery-login-title h2 {
+        font-size: 24px;
+    }
+
+    .delivery-login-inputs input,
+    .delivery-login-inputs select {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+
+    .delivery-login-container button {
+        padding: 12px;
+        font-size: 16px;
+    }
+}

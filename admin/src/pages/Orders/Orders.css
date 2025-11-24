@@ -1,0 +1,75 @@
+.order-item{
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 1fr 1fr 1.5fr;
+    align-items: start;
+    gap: 30px;
+    border: 1px solid tomato;
+    padding: 20px;
+    margin: 30px 0px;
+    font-size: 14px;
+    color: #505050;
+}
+.order-item-food,.order-item-name{
+    font-weight: 600;
+}
+.order-item-name{
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
+.order-item-address{
+    margin-bottom: 10px;
+}
+.order-item select{
+    background-color: #ffe8e4;
+    border: 1px solid tomato;
+    width: max(10vw,120px);
+    padding: 10px;
+    outline:none;
+}
+
+.order-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.delivery-status {
+    font-weight: 600;
+    color: #FF6B35;
+    margin: 0;
+}
+
+.tracking-id {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+    font-family: monospace;
+}
+
+.partner-select {
+    background-color: #e8f5e8;
+    border: 1px solid #4CAF50;
+    margin-top: 5px;
+}
+
+.assigned-partner {
+    font-size: 12px;
+    color: #4CAF50;
+    font-weight: 600;
+    margin: 5px 0 0 0;
+}
+@media(max-width:1000px){
+    .order-item{
+        font-size: 12px;
+        grid-template-columns: 0.5fr 2fr 1fr;
+        padding: 15px 8px;
+    }
+    .order-item select{
+        padding: 5px;
+        font-size: 12px;
+    }
+    .order-item img{
+        width: 40px;
+    }
+}
