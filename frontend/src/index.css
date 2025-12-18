@@ -9,31 +9,59 @@
 }
 
 :root {
-  --bg-image: url('./assets/header_img.png');
-  --bg-color: #ffffff;
-  --text-color: #000000;
+  --bg-color: #f3eeed;
+  --text-color: #5c5454;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
 }
 
 body {
   background-image: var(--bg-image);
-  background-size: cover;
-  background-position: center;
+  background-size: 1700px auto;
+  background-position: fixed;
   background-repeat: no-repeat;
   min-height: 100vh;
   color: var(--text-color);
   background-color: var(--bg-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body.dark {
   --bg-image: none;
   --bg-color: #0f1624;
   --text-color: #e6e6e6;
+  --card-bg: #1a2236;
+  --border-color: #2d3748;
 }
 
-/* Force all text to white in dark mode */
-body.dark, body.dark a, body.dark p, body.dark h1, body.dark h2, body.dark h3, body.dark h4, body.dark h5, body.dark h6,
-body.dark span, body.dark li, body.dark label, body.dark input, body.dark button, body.dark small, body.dark strong, body.dark div {
-  color: #ffffff !important;
+/* Apply specific overrides where necessary, instead of global !important */
+body.dark a,
+body.dark p,
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6,
+body.dark span,
+body.dark li,
+body.dark label,
+body.dark input,
+body.dark button,
+body.dark small,
+body.dark strong,
+body.dark div {
+  color: inherit;
+  /* Allow inheritance from body var(--text-color) */
+}
+
+/* Ensure inputs have readable backgrounds in dark mode */
+body.dark input,
+body.dark textarea,
+body.dark select {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
 }
 
 a {
@@ -44,6 +72,7 @@ a {
 .app {
   width: 80%;
   margin: auto;
+  padding-top: 120px;
 }
 
 @keyframes fadeIn {

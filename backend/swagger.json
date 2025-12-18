@@ -5,16 +5,21 @@
     "version": "1.0.0"
   },
   "servers": [
-    { "url": "http://localhost:4545" }
+    {
+      "url": "http://localhost:4545"
+    }
   ],
   "paths": {
     "/": {
       "get": {
         "summary": "Healthcheck",
-        "responses": { "200": { "description": "API Working" } }
+        "responses": {
+          "200": {
+            "description": "API Working"
+          }
+        }
       }
     },
-
     "/api/user/register": {
       "post": {
         "summary": "Register user",
@@ -25,19 +30,36 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": { "type": "string" },
-                  "email": { "type": "string" },
-                  "password": { "type": "string" }
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  }
                 },
-                "required": ["name", "email", "password"]
+                "required": [
+                  "name",
+                  "email",
+                  "password",
+                  "phone"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
-
     "/api/user/login": {
       "post": {
         "summary": "Login user",
@@ -48,25 +70,41 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "email": { "type": "string" },
-                  "password": { "type": "string" }
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
                 },
-                "required": ["email", "password"]
+                "required": [
+                  "email",
+                  "password"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
-
     "/api/food/list": {
       "get": {
         "summary": "Get food list",
         "responses": {
           "200": {
             "description": "Food items",
-            "content": { "application/json": { "schema": { "type": "object" } } }
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
           }
         }
       }
@@ -81,18 +119,38 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": { "type": "string" },
-                  "description": { "type": "string" },
-                  "price": { "type": "number" },
-                  "category": { "type": "string" },
-                  "image": { "type": "string", "format": "binary" }
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
                 },
-                "required": ["name", "price", "category", "image"]
+                "required": [
+                  "name",
+                  "price",
+                  "category",
+                  "image"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/food/remove": {
@@ -104,30 +162,60 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": { "id": { "type": "string" } },
-                "required": ["id"]
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
-
     "/api/cart/get": {
       "post": {
         "summary": "Get cart for user",
         "parameters": [
-          { "in": "header", "name": "token", "required": true, "schema": { "type": "string" } }
+          {
+            "in": "header",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
-        "responses": { "200": { "description": "OK" }, "401": { "description": "Unauthorized" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
     "/api/cart/add": {
       "post": {
         "summary": "Add item to cart",
         "parameters": [
-          { "in": "header", "name": "token", "required": true, "schema": { "type": "string" } }
+          {
+            "in": "header",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "requestBody": {
           "required": true,
@@ -135,20 +223,40 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": { "itemId": { "type": "string" } },
-                "required": ["itemId"]
+                "properties": {
+                  "itemId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "itemId"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "OK" }, "401": { "description": "Unauthorized" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
     "/api/cart/remove": {
       "post": {
         "summary": "Remove item from cart",
         "parameters": [
-          { "in": "header", "name": "token", "required": true, "schema": { "type": "string" } }
+          {
+            "in": "header",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "requestBody": {
           "required": true,
@@ -156,60 +264,160 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": { "itemId": { "type": "string" } },
-                "required": ["itemId"]
+                "properties": {
+                  "itemId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "itemId"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "OK" }, "401": { "description": "Unauthorized" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
-
     "/api/order/list": {
       "get": {
         "summary": "List all orders (admin)",
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/order/userorders": {
       "post": {
         "summary": "List orders for current user",
-        "parameters": [ { "in": "header", "name": "token", "required": true, "schema": { "type": "string" } } ],
-        "responses": { "200": { "description": "OK" }, "401": { "description": "Unauthorized" } }
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
     "/api/order/place": {
       "post": {
         "summary": "Place order (Stripe)",
-        "parameters": [ { "in": "header", "name": "token", "required": true, "schema": { "type": "string" } } ],
-        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object" } } } },
-        "responses": { "200": { "description": "OK" }, "401": { "description": "Unauthorized" } }
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
     "/api/order/status": {
       "post": {
         "summary": "Update order status (admin)",
-        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object" } } } },
-        "responses": { "200": { "description": "OK" } }
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/order/verify": {
       "post": {
         "summary": "Verify payment (Stripe)",
-        "requestBody": { "required": true },
-        "responses": { "200": { "description": "OK" } }
+        "requestBody": {
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/order/placecod": {
       "post": {
         "summary": "Place order (Cash on Delivery)",
-        "parameters": [ { "in": "header", "name": "token", "required": true, "schema": { "type": "string" } } ],
-        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object" } } } },
-        "responses": { "200": { "description": "OK" }, "401": { "description": "Unauthorized" } }
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
-
     "/api/delivery-partner/register": {
       "post": {
         "summary": "Register delivery partner",
@@ -220,19 +428,40 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": { "type": "string" },
-                  "email": { "type": "string" },
-                  "password": { "type": "string" },
-                  "phone": { "type": "string" },
-                  "vehicleType": {"type": "string" },
-                  "vehicleNumber": {"type":"string"}
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "vehicleType": {
+                    "type": "string"
+                  },
+                  "vehicleNumber": {
+                    "type": "string"
+                  }
                 },
-                "required": ["name", "email", "password", "phone"]
+                "required": [
+                  "name",
+                  "email",
+                  "password",
+                  "phone"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/delivery-partner/login": {
@@ -245,22 +474,40 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "email": { "type": "string" },
-                  "password": { "type": "string" }
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
                 },
-                "required": ["email", "password"]
+                "required": [
+                  "email",
+                  "password"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/delivery-partner/update-location": {
       "post": {
         "summary": "Update delivery partner location",
         "parameters": [
-          { "in": "header", "name": "token", "required": true, "schema": { "type": "string" } }
+          {
+            "in": "header",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "requestBody": {
           "required": true,
@@ -269,31 +516,66 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "latitude": { "type": "number" },
-                  "longitude": { "type": "number" }
+                  "latitude": {
+                    "type": "number"
+                  },
+                  "longitude": {
+                    "type": "number"
+                  }
                 },
-                "required": ["latitude", "longitude"]
+                "required": [
+                  "latitude",
+                  "longitude"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "OK" }, "401": { "description": "Unauthorized" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
     "/api/delivery-partner/assigned-orders": {
       "post": {
         "summary": "Get assigned orders for delivery partner",
         "parameters": [
-          { "in": "header", "name": "token", "required": true, "schema": { "type": "string" } }
+          {
+            "in": "header",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
-        "responses": { "200": { "description": "OK" }, "401": { "description": "Unauthorized" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
     "/api/delivery-partner/update-status": {
       "post": {
         "summary": "Update delivery status",
         "parameters": [
-          { "in": "header", "name": "token", "required": true, "schema": { "type": "string" } }
+          {
+            "in": "header",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "requestBody": {
           "required": true,
@@ -302,30 +584,62 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "orderId": { "type": "string" },
-                  "status": { "type": "string" }
+                  "orderId": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  }
                 },
-                "required": ["orderId", "status"]
+                "required": [
+                  "orderId",
+                  "status"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "OK" }, "401": { "description": "Unauthorized" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
     "/api/delivery-partner/profile": {
       "post": {
         "summary": "Get delivery partner profile",
         "parameters": [
-          { "in": "header", "name": "token", "required": true, "schema": { "type": "string" } }
+          {
+            "in": "header",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
-        "responses": { "200": { "description": "OK" }, "401": { "description": "Unauthorized" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
     "/api/delivery-partner/list": {
       "get": {
         "summary": "Get all delivery partners (admin)",
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/delivery-partner/assign-order": {
@@ -338,24 +652,46 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "orderId": { "type": "string" },
-                  "partnerId": { "type": "string" }
+                  "orderId": {
+                    "type": "string"
+                  },
+                  "partnerId": {
+                    "type": "string"
+                  }
                 },
-                "required": ["orderId", "partnerId"]
+                "required": [
+                  "orderId",
+                  "partnerId"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/delivery-partner/location/{partnerId}": {
       "get": {
         "summary": "Get delivery partner location",
         "parameters": [
-          { "in": "path", "name": "partnerId", "required": true, "schema": { "type": "string" } }
+          {
+            "in": "path",
+            "name": "partnerId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   },
@@ -369,5 +705,3 @@
     }
   }
 }
-
-

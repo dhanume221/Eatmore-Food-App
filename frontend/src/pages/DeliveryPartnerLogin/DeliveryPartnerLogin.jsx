@@ -1,4 +1,6 @@
 import React, { useState, useContext } from 'react';
+import { assets } from '../../assets/assets';
+import { useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../Context/StoreContext';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -6,6 +8,7 @@ import './DeliveryPartnerLogin.css';
 
 const DeliveryPartnerLogin = () => {
     const [currState, setCurrState] = useState("Login");
+    const navigate = useNavigate();
     const [data, setData] = useState({
         name: "",
         email: "",
@@ -48,6 +51,7 @@ const DeliveryPartnerLogin = () => {
             <form onSubmit={onLogin} className="delivery-login-container">
                 <div className="delivery-login-title">
                     <h2>{currState}</h2>
+                    <img onClick={() => navigate('/')} src={assets.cross_icon} alt="" />
                 </div>
                 <div className="delivery-login-inputs">
                     {currState === "Sign Up" && (

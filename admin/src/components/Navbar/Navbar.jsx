@@ -1,12 +1,22 @@
 import React from 'react'
 import './Navbar.css'
-import { assets } from '../../assets/assets'
 
-const Navbar = () => {
+const Navbar = ({ setToken }) => {
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken("");
+  }
+
   return (
     <div className='navbar'>
-      <img className='logo' src={assets.logo} alt="" />
-      <img className='profile' src={assets.profile_image} alt="" />
+      <img className='logo' src={'/logo.png'} alt="" />
+      {setToken && (
+        <React.Fragment>
+          <button onClick={logout} className='navbar-logout'>Logout</button>
+          <img className='profile' src={'/profile.png'} alt="" />
+        </React.Fragment>
+      )}
     </div>
   )
 }

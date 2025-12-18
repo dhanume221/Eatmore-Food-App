@@ -7,8 +7,8 @@ import { toast } from 'react-toastify'
 
 const LoginPopup = ({ setShowLogin }) => {
 
-    const { setToken, url,loadCartData } = useContext(StoreContext)
-    const [currState, setCurrState] = useState("Sign Up");
+    const { setToken, url, loadCartData } = useContext(StoreContext)
+    const [currState, setCurrState] = useState("Login");
     const [otpStep, setOtpStep] = useState(false)
     const [otpCode, setOtpCode] = useState("")
     const [tempToken, setTempToken] = useState("")
@@ -47,7 +47,7 @@ const LoginPopup = ({ setShowLogin }) => {
             if (response.data.token) {
                 setToken(response.data.token)
                 localStorage.setItem("token", response.data.token)
-                loadCartData({token:response.data.token})
+                loadCartData({ token: response.data.token })
                 setShowLogin(false)
                 return
             }
@@ -72,7 +72,7 @@ const LoginPopup = ({ setShowLogin }) => {
             if (resp.data?.success && resp.data?.token) {
                 setToken(resp.data.token)
                 localStorage.setItem("token", resp.data.token)
-                loadCartData({token:resp.data.token})
+                loadCartData({ token: resp.data.token })
                 setShowLogin(false)
                 return
             }
@@ -91,35 +91,36 @@ const LoginPopup = ({ setShowLogin }) => {
                 <div className="login-popup-inputs">
                     {otpStep ? (
                         <input
-                          name='otp'
-                          onChange={(e)=> setOtpCode(e.target.value.trim())}
-                          value={otpCode}
-                          type="text"
-                          inputMode="numeric"
-                          pattern="[0-9]*"
-                          placeholder='6-digit Authenticator code'
-                          required
+                            name='otp'
+                            onChange={(e) => setOtpCode(e.target.value.trim())}
+                            value={otpCode}
+                            type="text"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            placeholder='6-digit Authenticator code'
+                            required
                         />
                     ) : (
                         <>
-                          {currState === "Sign Up" ? <input name='name' onChange={onChangeHandler} value={data.name} type="text" placeholder='Your name' required /> : <></>}
-                          <input name='email' onChange={onChangeHandler} value={data.email} type="email" placeholder='Your email' required />
-                          <input name='password' onChange={onChangeHandler} value={data.password} type="password" placeholder='Password' required />
+                            {currState === "Sign Up" ? <input name='name' onChange={onChangeHandler} value={data.name} type="text" pattern='[a-zA-Z ]+' placeholder='Your name' required /> : <></>}
+                            <input name='email' onChange={onChangeHandler} value={data.email} type="email" placeholder='Your email' required />
+                            <input name='password' onChange={onChangeHandler} value={data.password} type="password" placeholder='Password' required />
+                            <input name='phone' onChange={onChangeHandler} value={data.phone} type="number" placeholder='Phone Number' pattern="[0-9]*" maxLength={10} required />
                         </>
                     )}
                 </div>
                 <button>{otpStep ? "Verify Code" : (currState === "Login" ? "Login" : "Create account")}</button>
                 <div className="login-popup-condition">
-                    <input type="checkbox" name="" id="" required/>
-                    <p>By continuing, i agree to the terms of use & privacy policy.</p>
+                    <input type="checkbox" name="" id="" required />
+                    <p>By continuing, I agree to the terms of use & privacy policy.</p>
                 </div>
                 {!otpStep && (
-                  currState === "Login"
-                    ? <p>Create a new account? <span onClick={() => setCurrState('Sign Up')}>Click here</span></p>
-                    : <p>Already have an account? <span onClick={() => setCurrState('Login')}>Login here</span></p>
+                    currState === "Login"
+                        ? <p>Create a new account? <span onClick={() => setCurrState('Sign Up')}>Click here</span></p>
+                        : <p>Already have an account? <span onClick={() => setCurrState('Login')}>Login here</span></p>
                 )}
                 {otpStep && (
-                  <p>Open Google Authenticator and enter the 6-digit code.</p>
+                    <p>Open Google Authenticator and enter the 6-digit code.</p>
                 )}
             </form>
         </div>

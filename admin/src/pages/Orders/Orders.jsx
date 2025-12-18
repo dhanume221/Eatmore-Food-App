@@ -5,14 +5,14 @@ import axios from 'axios';
 import { assets, url, currency } from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
 
-const Order = () => {
+const Order = ({ url, token }) => {
 
   const [orders, setOrders] = useState([]);
   const [deliveryPartners, setDeliveryPartners] = useState([]);
   const navigate = useNavigate();
 
   const fetchAllOrders = async () => {
-    const response = await axios.get(`${url}/api/order/list`)
+    const response = await axios.get(`${url}/api/order/list`, { headers: { token } })
     if (response.data.success) {
       setOrders(response.data.data.reverse());
     }
@@ -23,7 +23,7 @@ const Order = () => {
 
   const fetchDeliveryPartners = async () => {
     try {
-      const response = await axios.get(`${url}/api/delivery-partner/list`);
+      const response = await axios.get(`${url}/api/delivery-partner/list`, { headers: { token } });
       if (response.data.success) {
         setDeliveryPartners(response.data.data);
       }
@@ -37,7 +37,7 @@ const Order = () => {
     const response = await axios.post(`${url}/api/order/status`, {
       orderId,
       status: event.target.value
-    })
+    }, { headers: { token } })
     if (response.data.success) {
       await fetchAllOrders();
     }
@@ -48,7 +48,7 @@ const Order = () => {
       const response = await axios.post(`${url}/api/delivery-partner/assign-order`, {
         orderId,
         partnerId
-      });
+      }, { headers: { token } });
       if (response.data.success) {
         toast.success("Delivery partner assigned successfully");
         await fetchAllOrders();

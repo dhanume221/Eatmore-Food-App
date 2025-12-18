@@ -1,5 +1,13 @@
 .navbar {
-    padding: 20px 0px;
+    padding: 2px 40px 2px 40px;
+    backdrop-filter: blur(4px);
+    background-color: rgba(168, 199, 226, 0.1);
+    position: fixed;
+    height: 110px;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -9,17 +17,14 @@
     width: 150px;
 }
 
-/* Make logo appear white in dark mode (affects image including bottom text) */
 body.dark .navbar .logo {
     filter: brightness(0) invert(1);
 }
 
-/* Add a subtle light border to the theme toggle in dark mode */
 body.dark .theme-toggle .toggle-track {
-    border: 1px solid rgba(255,255,255,0.35);
+    border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
-/* Make all navbar icons white in dark mode */
 body.dark .navbar-right img,
 body.dark .navbar-profile img,
 body.dark .navbar-profile-dropdown img {
@@ -52,6 +57,7 @@ body.dark .navbar-profile-dropdown img {
     padding: 0;
     cursor: pointer;
 }
+
 .theme-toggle .toggle-track {
     width: 48px;
     height: 26px;
@@ -62,6 +68,7 @@ body.dark .navbar-profile-dropdown img {
     padding: 3px;
     transition: background 0.2s ease;
 }
+
 .theme-toggle .toggle-thumb {
     width: 20px;
     height: 20px;
@@ -69,25 +76,27 @@ body.dark .navbar-profile-dropdown img {
     background: #ffffff;
     transform: translateX(0);
     transition: transform 0.2s ease;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 12px;
 }
+
 .theme-toggle.on .toggle-track {
     background: #111827;
 }
+
 .theme-toggle.on .toggle-thumb {
     transform: translateX(22px);
 }
 
 
-.navbar-search-icon{
-position: relative;
+.navbar-search-icon {
+    position: relative;
 }
 
-.navbar-search-icon .dot{
+.navbar-search-icon .dot {
     position: absolute;
     min-width: 10px;
     min-height: 10px;
@@ -112,29 +121,34 @@ position: relative;
     background: #fff4f2;
 }
 
-.navbar-profile{
+.navbar-profile {
     position: relative;
 
 }
-.navbar-profile-dropdown{
+
+.navbar-profile-dropdown {
     position: absolute;
     display: none;
     right: 0;
     z-index: 1;
 }
-.navbar-profile-dropdown li{
+
+.navbar-profile-dropdown li {
     display: flex;
     align-items: center;
     gap: 10px;
     cursor: pointer;
 }
-.navbar-profile-dropdown img{
+
+.navbar-profile-dropdown img {
     width: 20px;
 }
-.navbar-profile-dropdown li:hover{
+
+.navbar-profile-dropdown li:hover {
     color: #FF4C24;
 }
-.navbar-profile:hover .navbar-profile-dropdown{
+
+.navbar-profile:hover .navbar-profile-dropdown {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -145,26 +159,32 @@ position: relative;
     outline: 2px solid white;
     list-style: none;
 }
-.navbar-profile hr{
+
+.navbar-profile hr {
     background-color: gray;
     height: 1px;
     border: none;
 }
+
 /* Dark theme: profile dropdown */
-body.dark .navbar-profile:hover .navbar-profile-dropdown{
+body.dark .navbar-profile:hover .navbar-profile-dropdown {
     background-color: #111827;
     border: 1px solid #374151;
     outline: 2px solid #0b1220;
 }
-body.dark .navbar-profile-dropdown li{
+
+body.dark .navbar-profile-dropdown li {
     color: #e5e7eb;
 }
-body.dark .navbar-profile-dropdown li:hover{
+
+body.dark .navbar-profile-dropdown li:hover {
     color: #FF4C24;
 }
-body.dark .navbar-profile hr{
+
+body.dark .navbar-profile hr {
     background-color: #374151;
 }
+
 @media (max-width:1050px) {
     .navbar .logo {
         width: 140px;

@@ -8,14 +8,16 @@ const foodRouter = express.Router();
 const storage = multer.diskStorage({
     destination: 'uploads',
     filename: (req, file, cb) => {
-        return cb(null,`${Date.now()}${file.originalname}`);
+        return cb(null, `${Date.now()}${file.originalname}`);
     }
 })
 
-const upload = multer({ storage: storage})
+const upload = multer({ storage: storage })
 
-foodRouter.get("/list",listFood);
-foodRouter.post("/add",upload.single('image'),addFood);
-foodRouter.post("/remove",removeFood);
+import authMiddleware from '../middleware/auth.js';
+
+foodRouter.get("/list", listFood);
+foodRouter.post("/add", authMiddleware, upload.single('image'), addFood);
+foodRouter.post("/remove", authMiddleware, removeFood);
 
 export default foodRouter;

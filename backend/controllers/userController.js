@@ -4,26 +4,26 @@ import validator from "validator";
 import userModel from "../models/userModel.js";
 import speakeasy from "speakeasy";
 import qrcode from "qrcode";
+import "dotenv/config";
 
-//create token
+
 const createToken = (id) => {
-    return jwt.sign({id}, process.env.JWT_SECRET);
+    return jwt.sign({ id }, process.env.JWT_SECRET);
 }
 
-//login user
-const loginUser = async (req,res) => {
-    const {email, password} = req.body;
-    try{
-        const user = await userModel.findOne({email})
+const loginUser = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const user = await userModel.findOne({ email })
 
-        if(!user){
-            return res.json({success:false,message: "User does not exist"})
+        if (!user) {
+            return res.json({ success: false, message: "User does not exist" })
         }
 
         const isMatch = await bcrypt.compare(password, user.password)
 
-        if(!isMatch){
-            return res.json({success:false,message: "Invalid credentials"})
+        if (!isMatch) {
+            return res.json({ success: false, message: "Invalid credentials" })
         }
 
         // If 2FA is enabled, return a temporary token and require OTP step
@@ -33,47 +33,63 @@ const loginUser = async (req,res) => {
         }
 
         const token = createToken(user._id)
-        res.json({success:true,token})
+        res.json({ success: true, token })
     } catch (error) {
         console.log(error);
-        res.json({success:false,message:"Error"})
+        res.json({ success: false, message: "Error" })
     }
 }
 
-//register user
-const registerUser = async (req,res) => {
-    const {name, email, password} = req.body;
-    try{
+const loginAdmin = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+            const token = jwt.sign({ email, isAdmin: true }, process.env.JWT_SECRET);
+            res.json({ success: true, token })
+        } else {
+            res.json({ success: false, message: "Invalid Admin Credentials" })
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: "Error" })
+    }
+}
+
+const registerUser = async (req, res) => {
+    const { name, email, password, phone } = req.body;
+    try {
         //check if user already exists
-        const exists = await userModel.findOne({email})
-        if(exists){
-            return res.json({success:false,message: "User already exists"})
+        const exists = await userModel.findOne({ email })
+        if (exists) {
+            return res.json({ success: false, message: "User already exists" })
         }
 
         // validating email format & strong password
-        if(!validator.isEmail(email)){
-            return res.json({success:false,message: "Please enter a valid email"})
+        if (!validator.isEmail(email)) {
+            return res.json({ success: false, message: "Please enter a valid email" })
         }
-        if(password.length<8){
-            return res.json({success:false,message: "Please enter a strong password"})
+        if (password.length < 8) {
+            return res.json({ success: false, message: "Please enter a strong password" })
         }
-
+        if (!validator.isMobilePhone(phone) && phone.length != 10) {
+            return res.json({ success: false, message: "Please enter a valid phone number" })
+        }
         // hashing user password
         const salt = await bcrypt.genSalt(10); // the more no. round the more time it will take
         const hashedPassword = await bcrypt.hash(password, salt)
 
-        const newUser = new userModel({name, email, password: hashedPassword})
+        const newUser = new userModel({ name, email, password: hashedPassword, phone })
         const user = await newUser.save()
         const token = createToken(user._id)
-        res.json({success:true,token})
+        res.json({ success: true, token })
 
-    } catch(error){
+    } catch (error) {
         console.log(error);
-        res.json({success:false,message:"Error"})
+        res.json({ success: false, message: "Error" })
     }
 }
 
-export {loginUser, registerUser}
+export { loginUser, registerUser, loginAdmin }
 
 // ===== 2FA (TOTP) =====
 
@@ -82,10 +98,10 @@ const startTwoFactorSetup = async (req, res) => {
     try {
         const userId = req.body.userId
         const user = await userModel.findById(userId)
-        if (!user) return res.json({ success:false, message: "User not found" })
+        if (!user) return res.json({ success: false, message: "User not found" })
 
         const secret = speakeasy.generateSecret({
-            name: `Tomato App (${user.email})`
+            name: `EatMore App (${user.email})`
         })
 
         user.totpSecret = secret.base32
@@ -93,10 +109,10 @@ const startTwoFactorSetup = async (req, res) => {
 
         const otpauthUrl = secret.otpauth_url
         const qrDataUrl = await qrcode.toDataURL(otpauthUrl)
-        return res.json({ success:true, qrDataUrl, otpauthUrl })
+        return res.json({ success: true, qrDataUrl, otpauthUrl })
     } catch (e) {
         console.log(e)
-        return res.json({ success:false, message: "Failed to start 2FA setup" })
+        return res.json({ success: false, message: "Failed to start 2FA setup" })
     }
 }
 
@@ -106,7 +122,7 @@ const verifyEnableTwoFactor = async (req, res) => {
         const userId = req.body.userId
         const { code } = req.body
         const user = await userModel.findById(userId)
-        if (!user || !user.totpSecret) return res.json({ success:false, message: "2FA not initialized" })
+        if (!user || !user.totpSecret) return res.json({ success: false, message: "2FA not initialized" })
 
         const isValid = speakeasy.totp.verify({
             secret: user.totpSecret,
@@ -114,14 +130,14 @@ const verifyEnableTwoFactor = async (req, res) => {
             token: String(code || '').trim(),
             window: 2
         })
-        if (!isValid) return res.json({ success:false, message: "Invalid code" })
+        if (!isValid) return res.json({ success: false, message: "Invalid code" })
 
         user.twoFactorEnabled = true
         await user.save()
-        return res.json({ success:true })
+        return res.json({ success: true })
     } catch (e) {
         console.log(e)
-        return res.json({ success:false, message: "Failed to enable 2FA" })
+        return res.json({ success: false, message: "Failed to enable 2FA" })
     }
 }
 
@@ -130,12 +146,12 @@ const verifyTwoFactorLogin = async (req, res) => {
     try {
         const tempToken = req.headers['x-temp-token']
         const { code } = req.body
-        if (!tempToken) return res.json({ success:false, message: "Missing temp token" })
+        if (!tempToken) return res.json({ success: false, message: "Missing temp token" })
         const payload = jwt.verify(tempToken, process.env.JWT_SECRET)
-        if (!payload?.id || !payload?.twofa) return res.json({ success:false, message: "Invalid temp token" })
+        if (!payload?.id || !payload?.twofa) return res.json({ success: false, message: "Invalid temp token" })
 
         const user = await userModel.findById(payload.id)
-        if (!user || !user.totpSecret || !user.twoFactorEnabled) return res.json({ success:false, message: "2FA not enabled" })
+        if (!user || !user.totpSecret || !user.twoFactorEnabled) return res.json({ success: false, message: "2FA not enabled" })
 
         const isValid = speakeasy.totp.verify({
             secret: user.totpSecret,
@@ -143,13 +159,13 @@ const verifyTwoFactorLogin = async (req, res) => {
             token: String(code || '').trim(),
             window: 2
         })
-        if (!isValid) return res.json({ success:false, message: "Invalid code" })
+        if (!isValid) return res.json({ success: false, message: "Invalid code" })
 
         const token = createToken(user._id)
-        return res.json({ success:true, token })
+        return res.json({ success: true, token })
     } catch (e) {
         console.log(e)
-        return res.json({ success:false, message: "Verification failed" })
+        return res.json({ success: false, message: "Verification failed" })
     }
 }
 
@@ -160,11 +176,11 @@ const getTwoFactorStatus = async (req, res) => {
     try {
         const userId = req.body.userId
         const user = await userModel.findById(userId).select('twoFactorEnabled')
-        if (!user) return res.json({ success:false, message: 'User not found' })
-        return res.json({ success:true, twoFactorEnabled: !!user.twoFactorEnabled })
+        if (!user) return res.json({ success: false, message: 'User not found' })
+        return res.json({ success: true, twoFactorEnabled: !!user.twoFactorEnabled })
     } catch (e) {
         console.log(e)
-        return res.json({ success:false, message: 'Failed to fetch status' })
+        return res.json({ success: false, message: 'Failed to fetch status' })
     }
 }
 
@@ -174,26 +190,26 @@ const disableTwoFactor = async (req, res) => {
         const userId = req.body.userId
         const { code } = req.body
         const user = await userModel.findById(userId)
-        if (!user) return res.json({ success:false, message: 'User not found' })
-        if (!user.twoFactorEnabled) return res.json({ success:true })
+        if (!user) return res.json({ success: false, message: 'User not found' })
+        if (!user.twoFactorEnabled) return res.json({ success: true })
 
         if (user.totpSecret && code) {
             const ok = speakeasy.totp.verify({
                 secret: user.totpSecret,
                 encoding: 'base32',
-                token: String(code||'').trim(),
+                token: String(code || '').trim(),
                 window: 2
             })
-            if (!ok) return res.json({ success:false, message: 'Invalid code' })
+            if (!ok) return res.json({ success: false, message: 'Invalid code' })
         }
 
         user.twoFactorEnabled = false
         user.totpSecret = null
         await user.save()
-        return res.json({ success:true })
+        return res.json({ success: true })
     } catch (e) {
         console.log(e)
-        return res.json({ success:false, message: 'Failed to disable 2FA' })
+        return res.json({ success: false, message: 'Failed to disable 2FA' })
     }
 }
 

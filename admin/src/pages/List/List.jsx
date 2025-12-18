@@ -4,7 +4,7 @@ import { url, currency } from '../../assets/assets'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const List = () => {
+const List = ({ url, token }) => {
 
   const [list, setList] = useState([]);
 
@@ -21,7 +21,7 @@ const List = () => {
   const removeFood = async (foodId) => {
     const response = await axios.post(`${url}/api/food/remove`, {
       id: foodId
-    })
+    }, { headers: { token } })
     await fetchList();
     if (response.data.success) {
       toast.success(response.data.message);
